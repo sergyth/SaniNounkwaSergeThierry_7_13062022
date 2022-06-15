@@ -52,10 +52,19 @@ main {
 }
 
 .filter-input {
-  display: none;
+  border: 0px solid transparent;
+  outline: 0;
+  width: 100px;
+  height: 25px;
+  padding-left: 10px;
+  color: #fff;
 }
 
-.filter-button {
+.filter-input::placeholder {
+  color: #fff;
+}
+
+.filter {
   width: 170px;
   height: 69px;
   border-radius: 5px;
@@ -67,14 +76,17 @@ main {
   color: #fff;
 }
 
-.filter-button:nth-child(1) {
+.filter:nth-child(1),
+.filter:nth-child(1) .filter-input{
   background-color: #3282f7;
 }
 
-.filter-button:nth-child(3) {
+.filter:nth-child(2),
+.filter:nth-child(2) .filter-input {
   background-color: #68d9a4;
 }
 
-.filter-button:nth-child(5) {
+.filter:nth-child(3),
+.filter:nth-child(3) .filter-input {
   background-color: #ed6454;
 }
