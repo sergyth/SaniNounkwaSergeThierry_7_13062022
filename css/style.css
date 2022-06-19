@@ -90,3 +90,65 @@ main {
 .filter:nth-child(3) .filter-input {
   background-color: #ed6454;
 }
+
+/************************ menu *************************/
+
+#recipes-wrapper{
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  
+}
+.recipe-card{
+  width: 400px;
+  height: 500px;
+  margin-bottom: 20px;
+}
+.recipe-top{
+  height: 50%;
+  background: #C7BEBE;
+  border-radius: 5px 5px 0 0;
+}
+.recipe-bottom{
+  height: 50%; 
+  background:#E7E7E7;
+  border-radius: 0 0 5px 5px ;
+  display: flex;
+}
+.recipe-left,
+.recipe-right{
+  width: 50%;
+  margin-left: 20px; 
+}
+.recipe-name{
+ margin-top: 20px;
+ font-weight: 400;
+ font-size: 18px;
+}
+.recipe-ingredients{
+ margin-top: 20px;
+ font-weight: 700;
+ font-size: 12px;
+}
+.time{
+  text-align: right;
+  margin :20px; 
+  font-size: 18px;
+  font-weight: 700;
+}
+.clock{
+  margin-right: 5px;
+}
+.description{
+  font-size: 12px;
+  line-height: 12px;
+  margin-right: 20px;
+  text-align: justify;
+  overflow: hidden;
+  height: 70%;
+ 
+}
+.description:hover{
+  overflow: auto;
+}
