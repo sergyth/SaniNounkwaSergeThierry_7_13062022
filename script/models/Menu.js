@@ -1,5 +1,4 @@
-import { recipes } from "../../data/recipes.js";
-import FilterUstensiles from '../models/FilterUstensiles.js'
+import { recipes } from "../../../data/recipes.js";
 
  class Menu {
   constructor(recipes) {
