@@ -49,6 +49,8 @@ main {
 #filters {
   margin-top: 30px;
   display: flex;
+  border: 1px solid red;
+  height: 50px;
 }
 
 .filter-input {
@@ -58,6 +60,7 @@ main {
   height: 25px;
   padding-left: 10px;
   color: #fff;
+ 
 }
 
 .filter-input::placeholder {
@@ -74,20 +77,18 @@ main {
   align-items: center;
   border: none;
   color: #fff;
+  border: 1px solid green;
 }
 
-.filter:nth-child(1),
-.filter:nth-child(1) .filter-input{
+.bleu{
   background-color: #3282f7;
 }
 
-.filter:nth-child(2),
-.filter:nth-child(2) .filter-input {
+.vert{
   background-color: #68d9a4;
 }
 
-.filter:nth-child(3),
-.filter:nth-child(3) .filter-input {
+.red {
   background-color: #ed6454;
 }
 
@@ -100,27 +101,33 @@ main {
   justify-content: space-between;
   
 }
+
 .recipe-card{
   width: 400px;
   height: 460px;
   margin-bottom: 20px;
+  margin-right: 10px;
 }
+
 .recipe-top{
   height: 50%;
   background: #C7BEBE;
   border-radius: 5px 5px 0 0;
 }
+
 .recipe-bottom{
   height: 50%; 
   background:#E7E7E7;
   border-radius: 0 0 5px 5px ;
   display: flex;
 }
+
 .recipe-left,
 .recipe-right{
   width: 50%;
   margin-left: 20px; 
 }
+
 .recipe-name{
  margin-top: 20px;
  font-weight: 400;
@@ -132,20 +139,24 @@ main {
  text-overflow: ellipsis;
  white-space: nowrap;
 }
+
 .recipe-ingredients{
  margin-top: 20px;
  font-weight: 700;
  font-size: 12px;
 }
+
 .time{
   text-align: right;
   margin :20px; 
   font-size: 18px;
   font-weight: 700;
 }
+
 .clock{
   margin-right: 5px;
 }
+
 .description{
   font-size: 12px;
   line-height: 12px;
@@ -159,6 +170,7 @@ main {
   text-overflow: ellipsis;
   white-space: normal;
 }
+
 .description:hover{
   overflow: auto;
   -webkit-box-orient: vertical;
