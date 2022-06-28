@@ -1,17 +1,22 @@
 class Dropdown {
-    constructor(menu){
-        this.menu = menu;
-        this.all = new Set();
+    constructor(title, ref){
+        this.title = title;
+        this.ref = ref;
     }
     
  
     render()
     {
-        return
-            `<div class="filter">
-                <input type="search" name="" class="filter-input " placeholder=''/>
-                <div id='tags'></div>
-                <button id=""><i class="fa-solid fa-chevron-down"></i></button>
+        return`
+            <div class="filter" id='filter-${this.ref}'>
+                <button class='open-filter'>
+                    ${this.title}
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class='filter-bottom'>
+                    <input type="search" name="" class="filter-input" placeholder='Rechercher un ${this.ref}'/>
+                    <button><i class="fa-solid fa-chevron-up"></i></button>
+                </div>
             </div>`;  
     }
 }
