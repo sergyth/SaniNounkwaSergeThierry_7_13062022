@@ -1,36 +1,30 @@
-class RecipeCard{
-    constructor(recipe){
-        this.id = recipe.id;
-        this.name = recipe.name;
-        this.servings = recipe.servings;
-        this.ingredients = recipe.ingredients;
-        this.time = recipe.time;
-        this.description = recipe.description;
-        this.appliance = recipe.appliance;
-        this.ustensils = recipe.ustensils;
-    } 
+class RecipeCard {
+   constructor(recipe) {
+      this.id = recipe.id;
+      this.name = recipe.name;
+      this.servings = recipe.servings;
+      this.ingredients = recipe.ingredients;
+      this.time = recipe.time;
+      this.description = recipe.description;
+      this.appliance = recipe.appliance;
+      this.ustensils = recipe.ustensils;
+   }
 
-    buildIngredients()
-    {
+   buildIngredients() {
       let htmlIngredient = "";
-      this.ingredients.forEach(ingredientObj => 
-      {
-        if (!ingredientObj.unit && ingredientObj.quantity)
-        {
-          htmlIngredient += `${ingredientObj.ingredient} : ${ingredientObj.quantity}<br>`;
-        } else if (!ingredientObj.unit && !ingredientObj.quantity)
-        {
-          htmlIngredient += `${ingredientObj.ingredient}<br>`;
-        } else 
-        {
-          htmlIngredient += `${ingredientObj.ingredient} : ${ingredientObj.quantity} ${ingredientObj.unit}<br>`;
-        }
-      })
-      return htmlIngredient
-    } 
+      this.ingredients.forEach((ingredientObj) => {
+         if (!ingredientObj.unit && ingredientObj.quantity) {
+            htmlIngredient += `${ingredientObj.ingredient} : ${ingredientObj.quantity}<br>`;
+         } else if (!ingredientObj.unit && !ingredientObj.quantity) {
+            htmlIngredient += `${ingredientObj.ingredient}<br>`;
+         } else {
+            htmlIngredient += `${ingredientObj.ingredient} : ${ingredientObj.quantity} ${ingredientObj.unit}<br>`;
+         }
+      });
+      return htmlIngredient;
+   }
 
-    render()
-    {
+   render() {
       return `
         <div class='recipe-card'>
           <div class='recipe-top'></div>
@@ -47,6 +41,6 @@ class RecipeCard{
             </div>  
           </div>
         </div>`;
-    }
+   }
 }
 export default RecipeCard;
