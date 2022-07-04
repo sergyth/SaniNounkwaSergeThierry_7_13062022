@@ -40,12 +40,12 @@ class FilterUstensiles {
          this.allItems.filter(item =>{ 
             if(item.includes(input)){
                if(!this.itemsFiltered.includes(item)){
-                  this.itemsFiltered.push(item)
+                  return this.itemsFiltered.push(item)
                }
             }
             this.itemsFiltered.filter(item => {
                if(!item.includes(input)){
-                  return this.itemsFiltered.indexOf(item)
+                  return this.itemsFiltered.splice(item)
                }
             })   
          })
