@@ -6,9 +6,7 @@ class FilterUstensiles {
       this.all = new Set();
       this.title = "Ustensiles";
       this.ref = "ustensil";
-      this.allItems = [];
-      this.itemsFiltered = []
-      this.itemsString = "";
+      this.filtered = []
       this.dropdown = "";
    
    }
@@ -23,71 +21,85 @@ class FilterUstensiles {
       document.querySelector(`#filter-${this.ref} .close-filter`).addEventListener("click", () => {
          document.querySelector(`#filter-${this.ref} .open-filter`).style.display = "block";
          document.querySelector(`#filter-${this.ref} .filter-bottom`).style.display = "none";
-         //document.querySelector(`#filter-${this.ref} .items`).innerHTML = ''
       });
       
    }
 
-   
-   listenFilterInput() {
-      const filterInput = (e) => {
+   displayDropdownItems(items) {
+      document.querySelector(`#filter-${this.ref} .items`).innerHTML = ''
+      items = items.sort((a, b) => a.localeCompare(b))
+      items.forEach((item) => {
+         item = this.dropdown.renderItem(item);
+         document.querySelector(`#filter-${this.ref} .items`).innerHTML += item;
+      });
+   }
+
+   filterRecipesByUstensiles () {
+      this.filtered.forEach(item => {
+         this.menu.recipes.forEach(recipe => {
+            
+         })
+      })
+   }
+
+   /**je filtre mon tableau d'elements et je vérifie que la valeur de mon input est inclu dans
+    * des élements de mon tableau. Si c'est le cas je met ces élements dans mon tableau @param filtered
+    * je filtre mon nouveau tableau en éliminant les élements qui ne correspondent pas à la valeur de l'input.
+    */
+
+   listenForFilterDropdown() {
+      const filterInputHandler = (e) => {
          e.preventDefault()
          let input = e.target.value.toLowerCase();
-         if (input.length === 0){
-            this.hydrate(this.allItems)
-         } 
-        document.querySelector(`#filter-${this.ref} .items`).innerHTML = ''
-         this.allItems.filter(item =>{ 
+         const items = [...this.all]
+         items.filter(item =>{ 
             if(item.includes(input)){
-               if(!this.itemsFiltered.includes(item)){
-                  return this.itemsFiltered.push(item)
+               if(!this.filtered.includes(item)){
+                  this.filtered.push(item)
                }
             }
-            this.itemsFiltered.filter(item => {
+            this.filtered.filter(item => {
                if(!item.includes(input)){
-                  return this.itemsFiltered.splice(item)
+                  this.filtered.splice(item)
                }
             })   
          })
-         console.log(this.itemsFiltered)
-         this.hydrate(this.itemsFiltered)
+         if (input.length != 0 && this.filtered.length === 0){
+            document.querySelector(`#filter-${this.ref} .items`).innerHTML = 'Aucun element trouvé'
+            return  
+         } 
+         this.displayDropdownItems(this.filtered)
       }
          
              
        
-      document.querySelector(`#filter-${this.ref} .filter-input`).addEventListener("input", filterInput);
+      document.querySelector(`#filter-${this.ref} .filter-input`).addEventListener("input", filterInputHandler);
    }
 
-
-   openFilter() {
+   listenForOpeningDropdown() {
       document.querySelector(`#filter-${this.ref} .open-filter`).addEventListener("click", () => {
          document.querySelector(`#filter-${this.ref} .open-filter`).style.display = "none";
          document.querySelector(`#filter-${this.ref} .filter-bottom`).style.display = "flex";
       });
-      this.hydrate(this.allItems)
+      this.displayDropdownItems([...this.all])
       
    }
 
-
-   hydrate(items) {
+   hydrate() {
       this.menu.recipes.forEach((recipe) => {
          recipe.ustensils.forEach((ustensil) => {
             this.all.add(ustensil.toLowerCase());
+     
          });
-      });
-      this.all.forEach((item) => this.allItems.push(item));
-      this.allItems.sort((a, b) => a.localeCompare(b));   
-      items.forEach((item) => {
-         item = this.dropdown.renderItem(item);
-         return document.querySelector(`#filter-${this.ref} .items`).innerHTML += item;
       });
    }
 
    start() {
       this.buildDropdown();
+      this.hydrate()
       this.closeFilter();
-      this.openFilter();
-      this.listenFilterInput() 
+      this.listenForOpeningDropdown();
+      this.listenForFilterDropdown()
    
    }
 }
