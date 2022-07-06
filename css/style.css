@@ -131,10 +131,14 @@ main {
   background-color: #3282f7;
 }
 
-.vert{
+
+
+#filter-appliance .open-filter, 
+#filter-appliance .filter-bottom,
+#filter-appliance .filter-input,
+#filter-appliance .filter-bottom button{
   background-color: #68d9a4;
 }
-
 #filter-ustensil .open-filter, 
 #filter-ustensil .filter-bottom,
 #filter-ustensil .filter-input,
