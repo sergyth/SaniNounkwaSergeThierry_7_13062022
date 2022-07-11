@@ -8,7 +8,7 @@ class Dropdown {
 
    render() {
       return`
-         <div class="filter" id='filter-${this.ref}'>
+         <div id='filter-${this.ref}' class="filter" >
             <button class='open-filter'>
                 ${this.title}
                 <i class="fa-solid fa-chevron-down chevron"></i>
