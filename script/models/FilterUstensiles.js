@@ -6,6 +6,9 @@ class FilterUstensiles extends Filter {
       super(menu, title, ref)
       this.title = "Ustensiles";
       this.ref = "ustensil";
+      this.tagList = new Set();
+      this.tag = null;
+      this.closeTag = null;
    }
 
    hydrate() 
@@ -20,35 +23,44 @@ class FilterUstensiles extends Filter {
       });
    }
 
-   // filterRecipesByUstensiles() 
-   // {
-   //    this.menu.recipes.forEach((recipe) => {
-   //       this.filtered.forEach((item) => {
-   //        if(recipe.ustensils.includes(item)){
-   //             this.recipeList.add(recipe)
-   //        } else{
-   //          this.recipeList.delete(recipe)
-   //       }
-   //       });
-         
-   //    });
-   //    console.log('ustensil', this.filtered)
-   //    console.log('list', this.recipeList)
-   //    this.menu.display(this.recipeList);
-         
-   // }
-   
-   listenForItemSelection ()
+   closeTag()
    {
-      this.filtered = [...this.filtered]
-      this.filtered.forEach(item => 
-         {
-            document.querySelector(`#filter-${this.ref} .item-${item}`).addEventListener('click', () =>
-            {
-               console.log('click')
-            } )
-         })
+      document.querySelectorAll('.closeTag').addEventListener('click', (e) => {
+         console.log(e.target.dataset.element)
+      })
    }
+
+   createTag(element)
+   {
+      this.tag = document.createElement('div');
+      this.closeTag = document.createElement('span');
+      this.closeTag.classList.add('closeTag');
+      this.closeTag.setAttribute('data-element', `${element}`)
+      this.tag.classList.add('tag')
+      this.closeTag.textContent = 'X';
+      this.tag.textContent = element
+      this.tag.appendChild(this.closeTag);
+      document.getElementById('tags').appendChild(this.tag)
+      
+   }
+
+   
+   listenForSelection ()
+   {
+
+      this.filterNode.querySelectorAll('.item').forEach(item => {
+         item.addEventListener('click', (e) => {
+            if(!this.tagList.has(item))
+            {
+              this.createTag(e.target.dataset.item)
+              this.tagList.add(item)
+             // this.closeTag()
+            }
+            
+         })
+      })
+   }
+   
 
  
 }

@@ -6,101 +6,92 @@ class Filter {
       this.all = new Set();
       this.filtered = new Set();
       this.dropdown = "";
-      this.recipeList = new Set();
       this.filterHandler = null;
-      this.title = title;
-      this.ref = ref;
+      this.filterNode = null;
    }
 
-   buildDropdown()
+   build()
    {
       this.dropdown = new Dropdown(this.title, this.ref);
       document.getElementById("filters").innerHTML += this.dropdown.render();
-      document.querySelector(`#filter-${this.ref} .filter-bottom`).style.display = "none";
+      this.filterNode = document.querySelector(`#filter-${this.ref}`) 
+      this.filterNode.querySelector('.filter-bottom').style.display = "none";
+    
    }
 
-   listenForClosingFilter()
+   listenForClosing()
    {
-      document.querySelector(`#filter-${this.ref} .close-filter`).addEventListener("click", () =>
+      this.filterNode.querySelector('.close-filter').addEventListener("click", () =>
          {
-            document.querySelector(`#filter-${this.ref} .open-filter`).style.display = "block";
-            document.querySelector(`#filter-${this.ref} .filter-bottom`).style.display = "none";
+            this.filterNode.querySelector('.open-filter').style.display = "block";
+            this.filterNode.querySelector('.filter-bottom').style.display = "none";
+            this.filterNode.querySelector('.filter-input').value = ''
          });
          
-      document.querySelector(`#filter-${this.ref} .filter-input`).removeEventListener("input", this.filterHandler);
+      this.filterNode.querySelector('.filter-input').removeEventListener("input", this.filterHandler);
    }
 
-   displayDropdownItems(items) 
+   display(items) 
    {
-      document.querySelector(`#filter-${this.ref} .items`).innerHTML = "";
+      this.filterNode.querySelector('.items').innerHTML = "";
       items = items.sort((a, b) => a.localeCompare(b));
       items.forEach((item) => 
       {
          item = this.dropdown.renderItem(item);
-         document.querySelector(`#filter-${this.ref} .items`).innerHTML += item
+         this.filterNode.querySelector('.items').innerHTML += item
       });
    }
 
-   listenForFilterDropdown() 
+   listenForFilter() 
    {
-      this.filterHandler = (e) => 
+      this.filterHandler = async (e) => 
       {
-         let input = e.target.value.toLowerCase();
-         const items = [...this.all];
+         let needle = e.target.value.toLowerCase();
          this.filtered = new Set()
-         items.forEach(item => 
+         this.all.forEach(item => 
          {
-            if (item.indexOf(input) > -1)
+            if (item.indexOf(needle) > -1)
             {
                this.filtered.add(item)
-               //console.log('filtre',this.filtered)
-               //this.filterRecipesByUstensiles(); 
             }
          })
-
-         if (this.filtered.size === 0) {
-            this.recipeList = this.menu.recipes
-            console.log(this.recipeList)
-            //this.filterRecipesByUstensiles();
-            document.getElementById("recipes-wrapper").innerHTML = "Désolé nous ne trouvons pas de recette...";
-            return;
-         }
-         //this.filterRecipesByUstensiles();
-         //console.log('end',this.filtered) 
-         this.displayDropdownItems([...this.filtered]);
-       
-         this.listenForItemSelection ()
          
-        
+         // if (this.filtered.size === 0) {
+         //    document.getElementById("recipes-wrapper").innerHTML = "Désolé nous ne trouvons pas de recette...";
+         //    return;
+         // }
+   
+         await this.display([...this.filtered]);  
+         this.listenForSelection () 
       };
 
-      document.querySelector(`#filter-${this.ref} .filter-input`).addEventListener("input", this.filterHandler);
+      this.filterNode.querySelector('.filter-input').addEventListener("input", this.filterHandler);
    }
 
-   listenForOpeningDropdown() 
+   listenForOpening() 
    {
-      const dropDownButton =document.querySelector(`#filter-${this.ref} .open-filter`);
-      const filterBottom = document.querySelector(`#filter-${this.ref} .filter-bottom`);
+      const button = this.filterNode.querySelector('.open-filter');
+      const filterBottom = this.filterNode.querySelector('.filter-bottom');
       //console.log(this.ref)
-      dropDownButton.addEventListener("click", () => 
+      button.addEventListener("click", () => 
       {
          //console.log('click', this.ref)
-         dropDownButton.style.display = "none";
+         button.style.display = "none";
          filterBottom.style.display = "flex";
-         this.displayDropdownItems([...this.all]);
-         this.listenForFilterDropdown();
+         this.display([...this.all]);
+         this.listenForFilter();
+         this.listenForSelection();
       });
 
-      this.listenForClosingFilter();
-     
+      this.listenForClosing();
    }
 
 
    start() 
    {
-      this.buildDropdown()
+      this.build()
       this.hydrate();
-      this.listenForOpeningDropdown();
+      this.listenForOpening();
       this.filtered = this.all
       
    }

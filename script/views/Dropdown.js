@@ -25,7 +25,7 @@ class Dropdown {
 
    renderItem(element) {
       return`
-         <li class ='item item-${element}'>${element}</li>`;
+         <li class ='item' data-item ='${element}'>${element}</li>`;
    }
 }
 
