@@ -131,7 +131,14 @@ main {
 .item {
    margin: 0 15px;
    list-style-type: none;
+   cursor: pointer;
+   
 }
+/* .item a{
+ text-decoration: none;
+ color: #fff;
+   
+} */
 
 #tags {
    margin-top: 15px;

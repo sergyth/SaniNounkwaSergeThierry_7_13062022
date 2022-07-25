@@ -5,40 +5,70 @@ class Filter {
       this.menu = menu;
       this.all = new Set();
       this.filtered = new Set();
+      this.selected = new Set();
       this.dropdown = "";
       this.filterHandler = null;
-      this.filterNode = null;
+      this.title = title;
+      this.ref = ref;
+      this.tag = null;
+      this.closeTag = null;
+      this.dom = {
+         bottom:null,
+         list:null,
+         open:null,
+         close:null,
+         input:null
+      }
    }
 
    build()
    {
       this.dropdown = new Dropdown(this.title, this.ref);
       document.getElementById("filters").innerHTML += this.dropdown.render();
-      this.filterNode = document.querySelector(`#filter-${this.ref}`) 
-      this.filterNode.querySelector('.filter-bottom').style.display = "none";
-    
+      this.dom = {
+         bottom:document.querySelector(`#filter-${this.ref} .filter-bottom`) ,
+         list:document.querySelector(`#filter-${this.ref} .items`) ,
+         open:document.querySelector(`#filter-${this.ref} .open-filter`) ,
+         close:document.querySelector(`#filter-${this.ref} .close-filter`) ,
+         input:document.querySelector(`#filter-${this.ref} .filter-input`) 
+      }
+      this.dom.bottom.style.display = "none";
    }
+   
+   displayTag(element)
+   {
+      this.tag = document.createElement('div');
+      this.closeTag = document.createElement('span');
+      this.closeTag.classList.add('closeTag');
+      this.closeTag.setAttribute('data-element', `${element}`)
+      this.tag.classList.add('tag')
+      this.closeTag.textContent = 'X';
+      this.tag.textContent = element
+      this.tag.appendChild(this.closeTag);
+      document.getElementById('tags').appendChild(this.tag)   
+   }
+
 
    listenForClosing()
    {
-      this.filterNode.querySelector('.close-filter').addEventListener("click", () =>
+      this.dom.close.addEventListener("click", () =>
          {
-            this.filterNode.querySelector('.open-filter').style.display = "block";
-            this.filterNode.querySelector('.filter-bottom').style.display = "none";
-            this.filterNode.querySelector('.filter-input').value = ''
+            this.dom.open.style.display = "block";
+            this.dom.bottom.style.display = "none";
+            this.dom.input.value = ''
          });
          
-      this.filterNode.querySelector('.filter-input').removeEventListener("input", this.filterHandler);
+      this.dom.input.removeEventListener("input", this.filterHandler);
    }
 
    display(items) 
    {
-      this.filterNode.querySelector('.items').innerHTML = "";
+      this.dom.list.innerHTML = "";
       items = items.sort((a, b) => a.localeCompare(b));
       items.forEach((item) => 
       {
          item = this.dropdown.renderItem(item);
-         this.filterNode.querySelector('.items').innerHTML += item
+         this.dom.list.innerHTML += item
       });
    }
 
@@ -55,43 +85,51 @@ class Filter {
                this.filtered.add(item)
             }
          })
-         
-         // if (this.filtered.size === 0) {
-         //    document.getElementById("recipes-wrapper").innerHTML = "Désolé nous ne trouvons pas de recette...";
-         //    return;
-         // }
-   
+      
          await this.display([...this.filtered]);  
-         this.listenForSelection () 
       };
 
-      this.filterNode.querySelector('.filter-input').addEventListener("input", this.filterHandler);
+      this.dom.input.addEventListener("input", this.filterHandler);
    }
 
    listenForOpening() 
    {
-      const button = this.filterNode.querySelector('.open-filter');
-      const filterBottom = this.filterNode.querySelector('.filter-bottom');
-      //console.log(this.ref)
-      button.addEventListener("click", () => 
+      this.dom.open.addEventListener("click", () => 
       {
-         //console.log('click', this.ref)
-         button.style.display = "none";
-         filterBottom.style.display = "flex";
-         this.display([...this.all]);
-         this.listenForFilter();
-         this.listenForSelection();
+         this.dom.open.style.display = "none";
+         this.dom.bottom.style.display = "flex";
       });
-
-      this.listenForClosing();
    }
+   
+   listenForSelection ()
+   {
 
+      this.dom.list.querySelectorAll('.item ').forEach(item => 
+      {
+         item.addEventListener('click', () => 
+         {
+            const tag = item.dataset.item
+            this.selected.add(tag)
+            console.log(this.selected)
+            this.displayTag(tag)
+            const filtered = this.filterRecipes()
+            this.menu.display(filtered)
+            this.hydrate(filtered)
+            this.display([...this.all])
+     
+         })
+      })
+   }
 
    start() 
    {
       this.build()
-      this.hydrate();
+      this.hydrate(this.menu.recipes);
+      this.display([...this.all]);
       this.listenForOpening();
+      this.listenForClosing();
+      this.listenForFilter();
+      this.listenForSelection();
       this.filtered = this.all
       
    }

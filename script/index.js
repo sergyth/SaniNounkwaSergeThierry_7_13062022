@@ -6,7 +6,7 @@ import FilterUstensiles from "../script/models/FilterUstensiles.js";
 
 const menu = new Menu(recipes);
 menu.display(recipes);
-const filterAppliances = new FilterAppliances(menu);
+//const filterAppliances = new FilterAppliances(menu);
 const filterUstensiles = new FilterUstensiles(menu);
 filterUstensiles.start();
 //filterAppliances.start();

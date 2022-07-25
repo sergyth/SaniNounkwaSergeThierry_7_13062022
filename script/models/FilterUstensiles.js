@@ -2,18 +2,15 @@
 import Filter from "../models/Filter.js"
 
 class FilterUstensiles extends Filter {
-   constructor(menu, title, ref) {
-      super(menu, title, ref)
-      this.title = "Ustensiles";
-      this.ref = "ustensil";
-      this.tagList = new Set();
-      this.tag = null;
-      this.closeTag = null;
+   constructor(menu) {
+      super(menu, "Ustensiles", "ustensil")
+    
    }
 
-   hydrate() 
+   hydrate(recipes) 
    {
-      this.menu.recipes.forEach((recipe) => 
+      this.all = new Set()
+      recipes.forEach((recipe) => 
       {
          recipe.ustensils.forEach((ustensil) => 
          {
@@ -22,45 +19,38 @@ class FilterUstensiles extends Filter {
 
       });
    }
+   filterRecipes()
+   {
+      return this.menu.recipes.filter(recipe =>
+      {
+         let count = 0;
+         this.selected.forEach(item =>
+         {
+            if(recipe.ustensils.includes(item))
+            {
+               count++
+            }
+         })
+         if(count === this.selected.size)
+         {
+            return true
+         }
+         return false
+      })
+   }
 
    closeTag()
    {
-      document.querySelectorAll('.closeTag').addEventListener('click', (e) => {
-         console.log(e.target.dataset.element)
-      })
-   }
-
-   createTag(element)
-   {
-      this.tag = document.createElement('div');
-      this.closeTag = document.createElement('span');
-      this.closeTag.classList.add('closeTag');
-      this.closeTag.setAttribute('data-element', `${element}`)
-      this.tag.classList.add('tag')
-      this.closeTag.textContent = 'X';
-      this.tag.textContent = element
-      this.tag.appendChild(this.closeTag);
-      document.getElementById('tags').appendChild(this.tag)
-      
-   }
-
-   
-   listenForSelection ()
-   {
-
-      this.filterNode.querySelectorAll('.item').forEach(item => {
-         item.addEventListener('click', (e) => {
-            if(!this.tagList.has(item))
-            {
-              this.createTag(e.target.dataset.item)
-              this.tagList.add(item)
-             // this.closeTag()
-            }
-            
+      document.querySelectorAll('.closeTag').forEach(tag =>
+         tag.addEventListener('click', (e)=>
+         {
+            const element = tag.dataset.element
+            console.log(element)
          })
-      })
+      )
    }
-   
+
+
 
  
 }
