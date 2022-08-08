@@ -18,14 +18,14 @@ class Dropdown {
                     <input type="search" class="filter-input" placeholder='Rechercher un ${this.ref}' autofocus/>
                     <button class='chevron close-filter'><i class="fa-solid fa-chevron-up"></i></button>
                 </div>
-                <ul class='items'></ul>
+                <div class='items'></div>
             </div>
          </div>`;
    }
 
    renderItem(element) {
       return`
-         <li class ='item' data-item ='${element}'>${element}</li>`;
+         <button class ='item' data-item ='${element}'>${element}</button>`;
    }
 }
 

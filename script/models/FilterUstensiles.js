@@ -19,6 +19,7 @@ class FilterUstensiles extends Filter {
 
       });
    }
+   
    filterRecipes()
    {
       return this.menu.recipes.filter(recipe =>
@@ -26,7 +27,9 @@ class FilterUstensiles extends Filter {
          let count = 0;
          this.selected.forEach(item =>
          {
-            if(recipe.ustensils.includes(item))
+            //item = item.normalize().toLowerCase()
+            const ustensils = recipe.ustensils.map(item => item.normalize().toLowerCase()) 
+            if(ustensils.includes(item))
             {
                count++
             }
@@ -39,16 +42,6 @@ class FilterUstensiles extends Filter {
       })
    }
 
-   closeTag()
-   {
-      document.querySelectorAll('.closeTag').forEach(tag =>
-         tag.addEventListener('click', (e)=>
-         {
-            const element = tag.dataset.element
-            console.log(element)
-         })
-      )
-   }
 
 
 

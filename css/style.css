@@ -104,13 +104,13 @@ main {
 }
 
 .filter-bottom button {
-   height: 25px;
-   padding: 15px;
+   height: 20px;
    border: none;
    display: flex;
    align-items: center;
    color: #fff;
-   margin: 15px 0;
+   
+   
 }
 
 .filter-input {
@@ -128,17 +128,15 @@ main {
    grid-template-columns: 1fr 1fr 1fr;
    justify-content: space-between;
 }
-.item {
-   margin: 0 15px;
-   list-style-type: none;
+.filter-bottom .item {
+   margin:0 10px 5px 0;
    cursor: pointer;
+   border: 1px solid #fff;
+   display: inline-block;
+   border-radius: 5px;
    
 }
-/* .item a{
- text-decoration: none;
- color: #fff;
-   
-} */
+
 
 #tags {
    margin-top: 15px;
@@ -173,6 +171,7 @@ main {
    justify-content: center;
    align-items: center;
    cursor: pointer;
+   background-color: #ed6454;
    
 }
 

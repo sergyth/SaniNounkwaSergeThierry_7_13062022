@@ -34,33 +34,17 @@ class Filter {
       }
       this.dom.bottom.style.display = "none";
    }
-   
-   displayTag(element)
+
+   cancelSelectedElements()
    {
-      this.tag = document.createElement('div');
-      this.closeTag = document.createElement('span');
-      this.closeTag.classList.add('closeTag');
-      this.closeTag.setAttribute('data-element', `${element}`)
-      this.tag.classList.add('tag')
-      this.closeTag.textContent = 'X';
-      this.tag.textContent = element
-      this.tag.appendChild(this.closeTag);
-      document.getElementById('tags').appendChild(this.tag)   
+      this.selected.forEach(item =>
+      {
+         let el = this.dom.list.querySelector(`[data-item="${item}"]`);
+         el.remove();
+         this.filtered.delete(item)
+      })
    }
-
-
-   listenForClosing()
-   {
-      this.dom.close.addEventListener("click", () =>
-         {
-            this.dom.open.style.display = "block";
-            this.dom.bottom.style.display = "none";
-            this.dom.input.value = ''
-         });
-         
-      this.dom.input.removeEventListener("input", this.filterHandler);
-   }
-
+      
    display(items) 
    {
       this.dom.list.innerHTML = "";
@@ -70,6 +54,57 @@ class Filter {
          item = this.dropdown.renderItem(item);
          this.dom.list.innerHTML += item
       });
+
+   }
+
+   displayTag(element)
+   {
+      this.tag = document.createElement('div');
+      this.closeTag = document.createElement('button');
+      this.closeTag.classList.add('closeTag');
+      this.closeTag.setAttribute('data-element', `${element}`)
+      this.tag.setAttribute('data-element', `${element}`)
+      this.tag.classList.add('tag')
+      this.closeTag.textContent = 'X';
+      this.tag.textContent = element
+      this.tag.appendChild(this.closeTag);
+      document.getElementById('tags').appendChild(this.tag)
+      this.listenForTag(element)   
+   }
+
+   listenForTag(element)
+   {
+      let button = document.querySelector(`.closeTag[data-element = "${element}"] `)
+      button.addEventListener('click', () =>
+      {
+         element= button.dataset.element
+         this.removeTag(element)
+         this.selected.delete(element)
+         console.log(this.selected)
+         if(this.selected.size===0){
+            const filtered = this.filterRecipes()
+            this.menu.display(filtered)
+            this.hydrate(filtered)
+            this.display([...this.all])
+            this.listenForSelection()
+           
+         }
+    
+      })
+      
+   }
+   
+   listenForClosing()
+   {
+      this.dom.close.addEventListener("click", () =>
+      {
+         this.dom.open.style.display = "block";
+         this.dom.bottom.style.display = "none";
+         this.dom.input.value = ''
+         this.display([...this.all])
+      });
+         
+      this.dom.input.removeEventListener("input", this.filterHandler);
    }
 
    listenForFilter() 
@@ -86,7 +121,8 @@ class Filter {
             }
          })
       
-         await this.display([...this.filtered]);  
+         await this.display([...this.filtered]);
+        // this.listenForSelection();  
       };
 
       this.dom.input.addEventListener("input", this.filterHandler);
@@ -98,29 +134,39 @@ class Filter {
       {
          this.dom.open.style.display = "none";
          this.dom.bottom.style.display = "flex";
+         this.display([...this.all])
+         this.listenForSelection(); 
       });
    }
    
    listenForSelection ()
    {
 
-      this.dom.list.querySelectorAll('.item ').forEach(item => 
+      this.dom.list.querySelectorAll('.item ').forEach(button => 
       {
-         item.addEventListener('click', () => 
+         button.addEventListener('click', () => 
          {
-            const tag = item.dataset.item
+            const tag = button.dataset.item
             this.selected.add(tag)
-            console.log(this.selected)
             this.displayTag(tag)
             const filtered = this.filterRecipes()
             this.menu.display(filtered)
             this.hydrate(filtered)
             this.display([...this.all])
+            this.cancelSelectedElements()
+            this.listenForSelection()
      
          })
       })
    }
 
+   removeTag(element)
+   {
+      document.querySelector(`.tag[data-element = "${element}"] `).remove()
+      this.filtered.add(element)
+      console.log(this.filtered)
+   }
+      
    start() 
    {
       this.build()

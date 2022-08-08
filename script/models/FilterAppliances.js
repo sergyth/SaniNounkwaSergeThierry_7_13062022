@@ -13,19 +13,7 @@ class FilterAppliances extends Filter {
       });
    }
 
-   // filterRecipesByAppliances() {
-   //    this.menu.recipes.forEach((recipe) => {
-   //       recipe.ustensils = [...recipe.ustensils];
-   //       this.filtered.forEach((item) => {
-   //          if (recipe.ustensils.includes(item)) {
-   //             this.recipeList.add(recipe);
-   //          } else {
-   //             this.recipeList.delete(recipe);
-   //          }
-   //          this.menu.display(this.recipeList);
-   //       });
-   //    });
-   // }
+  
 
 }
    
