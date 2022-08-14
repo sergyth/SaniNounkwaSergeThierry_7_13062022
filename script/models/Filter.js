@@ -10,7 +10,6 @@ class Filter {
       this.filterHandler = null;
       this.title = title;
       this.ref = ref;
-      this.tag = null;
       this.closeTag = null;
       this.dom = {
          bottom:null,
@@ -34,16 +33,6 @@ class Filter {
       }
       this.dom.bottom.style.display = "none";
    }
-
-   cancelSelectedElements()
-   {
-      this.selected.forEach(item =>
-      {
-         let el = this.dom.list.querySelector(`[data-item="${item}"]`);
-         el.remove();
-         this.filtered.delete(item)
-      })
-   }
       
    display(items) 
    {
@@ -57,41 +46,45 @@ class Filter {
 
    }
 
-   displayTag(element)
+   displaySelect()
    {
-      this.tag = document.createElement('div');
-      this.closeTag = document.createElement('button');
-      this.closeTag.classList.add('closeTag');
-      this.closeTag.setAttribute('data-element', `${element}`)
-      this.tag.setAttribute('data-element', `${element}`)
-      this.tag.classList.add('tag')
-      this.closeTag.textContent = 'X';
-      this.tag.textContent = element
-      this.tag.appendChild(this.closeTag);
-      document.getElementById('tags').appendChild(this.tag)
-      this.listenForTag(element)   
+      const tags = document.getElementById('tags')
+      document.getElementById('tags').innerHTML= ''
+      this.selected.forEach(tag =>
+      {
+         let button = document.createElement('div');
+         let closeTag = document.createElement('button');
+         closeTag.classList.add('closeTag');
+         closeTag.setAttribute('data-element', `${tag}`)
+         button.setAttribute('data-element', `${tag}`)
+         button.classList.add('tag')
+         closeTag.textContent = 'X';
+         button.textContent = tag
+         button.appendChild(closeTag);
+         document.getElementById('tags').innerHTML= button
+      })  
    }
 
-   listenForTag(element)
+   listenForUnselect()
    {
-      let button = document.querySelector(`.closeTag[data-element = "${element}"] `)
-      button.addEventListener('click', () =>
+      let buttons = document.querySelectorAll('.closeTag')
+      buttons.forEach(button =>
       {
-         element= button.dataset.element
-         this.removeTag(element)
-         this.selected.delete(element)
-         console.log(this.selected)
-         if(this.selected.size===0){
-            const filtered = this.filterRecipes()
-            this.menu.display(filtered)
-            this.hydrate(filtered)
-            this.display([...this.all])
-            this.listenForSelection()
-           
-         }
-    
+         button.addEventListener('click', () =>
+         {
+            tag = button.dataset.element
+            this.selected.delete(tag)
+          
+            if(this.selected.size===0){
+               const filtered = this.filterRecipes()
+               this.menu.display(filtered)
+               this.hydrate(filtered)
+               this.display([...this.all])
+               this.listenForSelection()  
+            }
+       
+         })
       })
-      
    }
    
    listenForClosing()
@@ -141,7 +134,6 @@ class Filter {
    
    listenForSelection ()
    {
-
       this.dom.list.querySelectorAll('.item ').forEach(button => 
       {
          button.addEventListener('click', () => 
@@ -155,7 +147,7 @@ class Filter {
             this.display([...this.all])
             this.cancelSelectedElements()
             this.listenForSelection()
-     
+            this.listenForUnselect() 
          })
       })
    }
@@ -176,8 +168,7 @@ class Filter {
       this.listenForClosing();
       this.listenForFilter();
       this.listenForSelection();
-      this.filtered = this.all
-      
+      this.filtered = this.all   
    }
 }
 
