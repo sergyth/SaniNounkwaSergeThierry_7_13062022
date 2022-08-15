@@ -40,16 +40,16 @@ class Filter {
       items = items.sort((a, b) => a.localeCompare(b));
       items.forEach((item) => 
       {
-         item = this.dropdown.renderItem(item);
+         const disabled = this.selected.has(item)
+         item = this.dropdown.renderItem(item, disabled);
          this.dom.list.innerHTML += item
       });
 
    }
 
-   displaySelect()
+   displaySelection()
    {
-      const tags = document.getElementById('tags')
-      document.getElementById('tags').innerHTML= ''
+      document.getElementById(`tags-${this.ref}`).innerHTML= ''
       this.selected.forEach(tag =>
       {
          let button = document.createElement('div');
@@ -61,7 +61,7 @@ class Filter {
          closeTag.textContent = 'X';
          button.textContent = tag
          button.appendChild(closeTag);
-         document.getElementById('tags').innerHTML= button
+         document.getElementById(`tags-${this.ref}`).appendChild(button)
       })  
    }
 
@@ -72,17 +72,15 @@ class Filter {
       {
          button.addEventListener('click', () =>
          {
-            tag = button.dataset.element
+            const tag = button.dataset.element
             this.selected.delete(tag)
-          
-            if(this.selected.size===0){
-               const filtered = this.filterRecipes()
-               this.menu.display(filtered)
-               this.hydrate(filtered)
-               this.display([...this.all])
-               this.listenForSelection()  
-            }
-       
+            this.displaySelection()
+            const filtered = this.filterRecipes()
+            this.menu.display(filtered)
+            this.hydrate(filtered)
+            this.display([...this.all])
+            this.listenForSelection()
+            this.listenForUnselect() 
          })
       })
    }
@@ -140,23 +138,15 @@ class Filter {
          {
             const tag = button.dataset.item
             this.selected.add(tag)
-            this.displayTag(tag)
+            this.displaySelection()
             const filtered = this.filterRecipes()
             this.menu.display(filtered)
             this.hydrate(filtered)
             this.display([...this.all])
-            this.cancelSelectedElements()
             this.listenForSelection()
             this.listenForUnselect() 
          })
       })
-   }
-
-   removeTag(element)
-   {
-      document.querySelector(`.tag[data-element = "${element}"] `).remove()
-      this.filtered.add(element)
-      console.log(this.filtered)
    }
       
    start() 
@@ -168,7 +158,8 @@ class Filter {
       this.listenForClosing();
       this.listenForFilter();
       this.listenForSelection();
-      this.filtered = this.all   
+      this.filtered = this.all
+      document.getElementById('tags').innerHTML = `<div id=tags-${this.ref}><div`   
    }
 }
 

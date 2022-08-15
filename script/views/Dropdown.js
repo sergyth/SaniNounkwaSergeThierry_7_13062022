@@ -23,7 +23,13 @@ class Dropdown {
          </div>`;
    }
 
-   renderItem(element) {
+   renderItem(element, disabled) {
+      if(disabled)
+      {
+         return`
+            <button class ='item disabled' data-item ='${element}' disabled>${element}</button>`
+      }
+      
       return`
          <button class ='item' data-item ='${element}'>${element}</button>`;
    }
