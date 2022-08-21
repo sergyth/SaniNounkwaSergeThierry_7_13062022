@@ -23,7 +23,9 @@ class Filter {
    build()
    {
       this.dropdown = new Dropdown(this.title, this.ref);
-      document.getElementById("filters").innerHTML += this.dropdown.render();
+      const el = document.createElement('div');
+      el.innerHTML = this.dropdown.render()
+      document.getElementById("filters").appendChild(el)
       this.dom = {
          bottom:document.querySelector(`#filter-${this.ref} .filter-bottom`) ,
          list:document.querySelector(`#filter-${this.ref} .items`) ,
@@ -32,6 +34,13 @@ class Filter {
          input:document.querySelector(`#filter-${this.ref} .filter-input`) 
       }
       this.dom.bottom.style.display = "none";
+   }
+
+   buildTagContainer()
+   {
+      const el = document.createElement('div')
+      el.innerHTML = `<div id="tags-${this.ref}"><div>`
+      document.getElementById('tags').appendChild(el) 
    }
       
    display(items) 
@@ -54,10 +63,10 @@ class Filter {
       {
          let button = document.createElement('div');
          let closeTag = document.createElement('button');
-         closeTag.classList.add('closeTag');
+         closeTag.classList.add("closeTag", `closeTag-${this.ref}`);
          closeTag.setAttribute('data-element', `${tag}`)
          button.setAttribute('data-element', `${tag}`)
-         button.classList.add('tag')
+         button.classList.add("tag", `tag-${this.ref}`)
          closeTag.textContent = 'X';
          button.textContent = tag
          button.appendChild(closeTag);
@@ -158,8 +167,8 @@ class Filter {
       this.listenForClosing();
       this.listenForFilter();
       this.listenForSelection();
-      this.filtered = this.all
-      document.getElementById('tags').innerHTML = `<div id=tags-${this.ref}><div`   
+      this.buildTagContainer()
+      this.filtered = this.all   
    }
 }
 

@@ -27,8 +27,7 @@ class FilterUstensiles extends Filter {
          let count = 0;
          this.selected.forEach(item =>
          {
-            //item = item.normalize().toLowerCase()
-            const ustensils = recipe.ustensils.map(item => item.normalize().toLowerCase()) 
+            const ustensils = recipe.ustensils.map(item => item.normalize().toLowerCase())
             if(ustensils.includes(item))
             {
                count++
@@ -36,7 +35,7 @@ class FilterUstensiles extends Filter {
          })
          if(count === this.selected.size)
          {
-            return true
+            return true 
          }
          return false
       })

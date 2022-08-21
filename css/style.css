@@ -59,9 +59,9 @@ main {
    margin-left: 30px;
    /* border: 1px solid yellow; */
 }
-#filter-appliance {
+/* #filter-appliance {
    border: 1px solid salmon;
-}
+} */
 
 .filter,
 .open-filter {
@@ -93,10 +93,12 @@ main {
 
 .filter-bottom {
    max-width: 100%;
+   max-height: 300px;
    border-radius: 5px;
    display: flex;
    flex-direction: column;
    padding: 10px;
+   overflow: auto
 }
 
 .filter-bottom-top {
@@ -109,6 +111,10 @@ main {
    display: flex;
    align-items: center;
    color: #fff;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+
    
    
 }
@@ -123,7 +129,7 @@ main {
    margin: 15px 0;
 }
 
-.items {
+.items{
    display: grid;
    grid-template-columns: 1fr 1fr 1fr;
    justify-content: space-between;
@@ -151,17 +157,22 @@ main {
    flex-wrap: wrap;
 }
 
+
 .tag {
-   padding: 5px;
+   padding: 5px 3px;
    height: 30px;
-   background-color: #ed6454;
    color: #fff;
    border-radius: 5px;
    margin: 5px;
-   display: flex;
+   display: inline-flex;
    align-items: center;
    justify-content: center;
    
+}
+
+
+#tags-ustensil {
+   display: flex;
 }
 
 .closeTag {
@@ -176,29 +187,39 @@ main {
    justify-content: center;
    align-items: center;
    cursor: pointer;
-   background-color: #ed6454;
-   
 }
 
-.bleu {
+#filter-ingredient .open-filter,
+#filter-ingredient .filter-bottom,
+#filter-ingredient .filter-input,
+#filter-ingredient .filter-bottom button,
+.tag-ingredient,
+.closeTag-ingredient  {
    background-color: #3282f7;
 }
 
 #filter-appliance .open-filter,
 #filter-appliance .filter-bottom,
 #filter-appliance .filter-input,
-#filter-appliance .filter-bottom button {
+#filter-appliance .filter-bottom button,
+.tag-appliance,
+.closeTag-appliance  {
    background-color: #68d9a4;
 }
+
 #filter-ustensil .open-filter,
 #filter-ustensil .filter-bottom,
 #filter-ustensil .filter-input,
-#filter-ustensil .filter-bottom button {
+#filter-ustensil .filter-bottom button,
+.tag-ustensil,
+.closeTag-ustensil {
    background-color: #ed6454;
 }
 
 #filter-ustensil .filter-input::placeholder,
-#filter-appliance .filter-input::placeholder {
+#filter-appliance .filter-input::placeholder,
+#filter-ingredient .filter-input::placeholder
+ {
    color: #fff;
    opacity: 0.6;
 }

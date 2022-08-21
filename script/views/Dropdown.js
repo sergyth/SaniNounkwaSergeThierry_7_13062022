@@ -2,7 +2,7 @@ class Dropdown {
    constructor(title, ref) {
       this.title = title;
       this.ref = ref;
-      this.item = ''
+      
       
    }
 
