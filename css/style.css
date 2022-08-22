@@ -52,16 +52,7 @@ main {
    display: flex;
    align-items: start;
    justify-content: start;
-   /* max-height: 1024px; */
-   /* border: 1px dotted crimson; */
 }
-#filter-ustensil {
-   margin-left: 30px;
-   /* border: 1px solid yellow; */
-}
-/* #filter-appliance {
-   border: 1px solid salmon;
-} */
 
 .filter,
 .open-filter {
@@ -134,6 +125,7 @@ main {
    grid-template-columns: 1fr 1fr 1fr;
    justify-content: space-between;
 }
+
 .filter-bottom .item {
    margin:0 10px 5px 0;
    cursor: pointer;
@@ -148,7 +140,6 @@ main {
    cursor: not-allowed;
 }
 
-
 #tags {
    margin-top: 15px;
    height: 80px;
@@ -156,7 +147,6 @@ main {
    display: flex;
    flex-wrap: wrap;
 }
-
 
 .tag {
    padding: 5px 3px;
