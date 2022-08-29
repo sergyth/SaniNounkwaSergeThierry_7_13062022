@@ -27,11 +27,11 @@ class Filter {
       el.innerHTML = this.dropdown.render()
       document.getElementById("filters").appendChild(el)
       this.dom = {
-         bottom:document.querySelector(`#filter-${this.ref} .filter-bottom`) ,
-         list:document.querySelector(`#filter-${this.ref} .items`) ,
-         open:document.querySelector(`#filter-${this.ref} .open-filter`) ,
-         close:document.querySelector(`#filter-${this.ref} .close-filter`) ,
-         input:document.querySelector(`#filter-${this.ref} .filter-input`) 
+         bottom : document.querySelector(`#filter-${this.ref} .filter-bottom`) ,
+         list : document.querySelector(`#filter-${this.ref} .items`) ,
+         open : document.querySelector(`#filter-${this.ref} .open-filter`) ,
+         close : document.querySelector(`#filter-${this.ref} .close-filter`) ,
+         input : document.querySelector(`#filter-${this.ref} .filter-input`) 
       }
       this.dom.bottom.style.display = "none";
    }
@@ -84,12 +84,7 @@ class Filter {
             const tag = button.dataset.element
             this.selected.delete(tag)
             this.displaySelection()
-            const filtered = this.filterRecipes()
-            this.menu.display(filtered)
-            this.hydrate(filtered)
-            this.display([...this.all])
-            this.listenForSelection()
-            this.listenForUnselect() 
+            this.menu.filter()
          })
       })
    }
@@ -148,12 +143,7 @@ class Filter {
             const tag = button.dataset.item
             this.selected.add(tag)
             this.displaySelection()
-            const filtered = this.filterRecipes()
-            this.menu.display(filtered)
-            this.hydrate(filtered)
-            this.display([...this.all])
-            this.listenForSelection()
-            this.listenForUnselect() 
+            this.menu.filter()
          })
       })
    }

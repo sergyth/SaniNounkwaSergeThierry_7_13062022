@@ -15,17 +15,24 @@ class FilterUstensiles extends Filter {
          recipe.ustensils.forEach((ustensil) => 
          {
             this.all.add(ustensil.toLowerCase());
+           
          });
 
       });
+      return this.all
    }
-   
-   filterRecipes()
+
+   /**
+    * @filterRecipes retourne la liste des recettes filtrées par rapport à  l'élément selectionné
+    */
+
+   filterRecipes(recipes)
    {
-      return this.menu.recipes.filter(recipe =>
+      return recipes.filter(recipe =>
       {
          let count = 0;
-         this.selected.forEach(item =>
+         const selection = [...this.selected].map(item => item.normalize().toLowerCase())
+         selection.forEach(item =>
          {
             const ustensils = recipe.ustensils.map(item => item.normalize().toLowerCase())
             if(ustensils.includes(item))
@@ -33,7 +40,7 @@ class FilterUstensiles extends Filter {
                count++
             }
          })
-         if(count === this.selected.size)
+         if(count === selection.length)
          {
             return true 
          }

@@ -18,15 +18,17 @@ class FilterIngredients extends Filter {
           });
  
        });
+       return this.all
      
     }
     
-    filterRecipes()
+    filterRecipes(recipes)
     {
-       return this.menu.recipes.filter(recipe =>
+       return recipes.filter(recipe =>
        {
           let count = 0;
-          this.selected.forEach(item =>
+          const selection = [...this.selected].map(item => item.normalize().toLowerCase())
+          selection.forEach(item =>
           {
              const ingredients = recipe.ingredients.map(item => item.ingredient.normalize().toLowerCase())
              if(ingredients.includes(item))
@@ -34,7 +36,7 @@ class FilterIngredients extends Filter {
                 count++
              }
           })
-          if(count === this.selected.size)
+          if(count === selection.length)
           {
              return true 
           }

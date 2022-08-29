@@ -11,24 +11,25 @@ class FilterAppliances extends Filter {
       recipes.forEach((recipe) => {
          this.all.add(recipe.appliance.toLowerCase());
       });
+      return this.all
    }
 
 
-   filterRecipes()
+   filterRecipes(recipes)
    {
-      return this.menu.recipes.filter(recipe =>
+      return recipes.filter(recipe =>
          {
             let count = 0;
-            this.selected.forEach(item =>
+            const selection = [...this.selected].map(item => item.normalize().toLowerCase())
+            selection.forEach(item =>
             {
                const appliance = recipe.appliance.normalize().toLowerCase()
-               console.log(recipe, appliance)
                if(appliance === item)
                {
                   count++
                }
             })
-            if(count === this.selected.size)
+            if(count === selection.length)
             {
                return true
             }
