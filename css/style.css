@@ -41,11 +41,15 @@ main {
 #search-input {
    width: 100%;
    padding: 15px;
-
    color: #000;
- 
    border: none;
    opacity: 0.35;
+}
+#search-input::after {
+ content:' Veuillez entrer au moins trois caractères...';
+ visibility: var(--afterVisibility, hidden);
+ border: 1px solid red;
+ color: red;
 }
 
 /******************************** filters *********************************/

@@ -76,7 +76,7 @@ class Filter {
 
    listenForUnselect()
    {
-      let buttons = document.querySelectorAll('.closeTag')
+      let buttons = document.querySelectorAll(`.closeTag-${this.ref}`)
       buttons.forEach(button =>
       {
          button.addEventListener('click', () =>
@@ -85,6 +85,7 @@ class Filter {
             this.selected.delete(tag)
             this.displaySelection()
             this.menu.filter()
+            this.listenForUnselect()
          })
       })
    }
@@ -104,7 +105,7 @@ class Filter {
 
    listenForFilter() 
    {
-      this.filterHandler = async (e) => 
+      this.filterHandler = (e) => 
       {
          let needle = e.target.value.toLowerCase();
          this.filtered = new Set()
@@ -116,7 +117,7 @@ class Filter {
             }
          })
       
-         await this.display([...this.filtered]);
+         this.display([...this.filtered]);
         // this.listenForSelection();  
       };
 
@@ -144,6 +145,7 @@ class Filter {
             this.selected.add(tag)
             this.displaySelection()
             this.menu.filter()
+            this.listenForUnselect()
          })
       })
    }

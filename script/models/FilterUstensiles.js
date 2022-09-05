@@ -28,10 +28,14 @@ class FilterUstensiles extends Filter {
 
    filterRecipes(recipes)
    {
+      const selection = [...this.selected].map(item => item.normalize().toLowerCase())
+      if(selection.length === 0)
+      {
+         return recipes
+      }
       return recipes.filter(recipe =>
       {
          let count = 0;
-         const selection = [...this.selected].map(item => item.normalize().toLowerCase())
          selection.forEach(item =>
          {
             const ustensils = recipe.ustensils.map(item => item.normalize().toLowerCase())
