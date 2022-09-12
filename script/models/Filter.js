@@ -118,7 +118,7 @@ class Filter {
          })
       
          this.display([...this.filtered]);
-        // this.listenForSelection();  
+         this.listenForSelection();  
       };
 
       this.dom.input.addEventListener("input", this.filterHandler);

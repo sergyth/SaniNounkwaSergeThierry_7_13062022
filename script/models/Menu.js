@@ -9,7 +9,7 @@ class Menu {
       this.list = new Set();
       this.filtered = new Set();
       this.needle = ''
-      this.all = [];  
+      //this.all = [];  
    }
 
    addFilter(filter)
@@ -43,7 +43,6 @@ class Menu {
          filter.hydrate(filtered)
          filter.display([...filter.all])
          filter.listenForSelection()
-         filter.listenForUnselect() 
       })    
    }
 
@@ -53,37 +52,47 @@ class Menu {
       const searchInput = document.getElementById('search-input') 
       searchInput.addEventListener('input', (e) => 
       {
-         this.needle = e.target.value.normalize().toLowerCase().trim('')
+         this.needle = e.target.value.normalize().toLowerCase()
          if(this.needle.length < 3)
          {
            // searchInput.style.setProperty('--afterVisibility', 'visible');
+           console.log('less than 3')
+           this.display(this.recipes)
            return
          }
          const filtered = this.search(this.recipes)
-         console.log(filtered)
-         //this.display(filtered)
+         this.display(filtered)
       
-         // this.filters.forEach(filter => 
-         // { 
-         //    filter.hydrate(filtered)
-         //    filter.display([...filter.all])
-         //    filter.listenForSelection()
-         //    filter.listenForUnselect() 
-         // })   
+         this.filters.forEach(filter => 
+         { 
+            filter.hydrate(filtered)
+            filter.display([...filter.all])
+            filter.listenForSelection()
+         })   
+      
       })
    }
 
 
    search(recipes)
    {
-      recipes.forEach(recipe =>
+      return recipes.filter(recipe =>
       {
          if(recipe.name.indexOf(this.needle) > -1){
-            console.log( recipe.name)
-            this.all.push(recipe)
+            return true
+         }
+         
+         if(recipe.description.indexOf(this.needle) > -1){
+            //console.log(recipe)
+            return true
+         }
+
+         if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.indexOf(this.needle) > -1)){
+            console.log(recipe)
+            return true
          }
       })
-      return this.all
+      
    }
 
 }

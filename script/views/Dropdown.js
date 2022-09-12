@@ -25,11 +25,11 @@ class Dropdown {
       if(disabled)
       {
          return`
-            <button class ='item disabled' data-item ='${element}' disabled>${element}</button>`
+            <button class ='item disabled' data-item ="${element}"disabled>${element}</button>`
       }
       
       return`
-         <button class ='item' data-item ='${element}'>${element}</button>`;
+         <button class ='item' data-item ="${element}">${element}</button>`;
    }
 }
 
