@@ -30,6 +30,14 @@ main {
    border-radius: 5px;
 }
 
+.warning {
+ border:1px solid red;
+ display:block;
+ height: 20px;
+ background: #fff;
+ color: red;
+}
+
 #search-icon {
    position: absolute;
    top: 50%;
@@ -44,12 +52,6 @@ main {
    color: #000;
    border: none;
    opacity: 0.35;
-}
-#search-input::after {
- content:' Veuillez entrer au moins trois caractères...';
- visibility: var(--afterVisibility, hidden);
- border: 1px solid red;
- color: red;
 }
 
 /******************************** filters *********************************/
@@ -232,6 +234,7 @@ main {
    display: flex;
    flex-wrap: wrap;
    justify-content: space-between;
+   border:1px solid red;
 }
 
 .recipe-card {

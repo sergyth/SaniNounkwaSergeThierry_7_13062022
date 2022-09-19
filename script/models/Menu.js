@@ -8,8 +8,7 @@ class Menu {
       this.items = new Set();
       this.list = new Set();
       this.filtered = new Set();
-      this.needle = ''
-      //this.all = [];  
+      this.needle = '';
    }
 
    addFilter(filter)
@@ -41,6 +40,10 @@ class Menu {
       this.filters.forEach(filter => 
       { 
          filter.hydrate(filtered)
+      
+      })    
+      this.filters.forEach(filter => 
+      { 
          filter.display([...filter.all])
          filter.listenForSelection()
       })    
@@ -49,27 +52,47 @@ class Menu {
    
    listenForsearch()
    {
-      const searchInput = document.getElementById('search-input') 
-      searchInput.addEventListener('input', (e) => 
+      const searchbar = document.getElementById('searchbar_wrapper');
+      const warning = document.createElement('div');
+      warning.classList.add('warning');
+      warning.innerText = "Merci de taper au moins 3 caractères pour commencer la recherche"
+      warning.style.display = 'none'
+      searchbar.append(warning); 
+      
+      document.getElementById('search-input').addEventListener('input', (e) => 
       {
          this.needle = e.target.value.normalize().toLowerCase()
+        
          if(this.needle.length < 3)
          {
-           // searchInput.style.setProperty('--afterVisibility', 'visible');
-           console.log('less than 3')
-           this.display(this.recipes)
-           return
+            warning.style.display = 'block'
+            this.display(this.recipes)
+            
+         } else
+         {
+            warning.remove();
+            const filtered = this.search(this.recipes)
+            console.log(filtered.length)
+            if(filtered.length === 0){
+               const recipeWrapper = document.getElementById('recipes-wrapper');
+               const displayWarning = document.createElement('div');
+               displayWarning.classList.add('warning');
+               displayWarning.textContent = "Aucune recette ne correspond à votre critère… "
+               recipeWrapper.appendChild(displayWarning); 
+            }
+
+            //console.log(filtered)
+            this.display(filtered)
+         
+            this.filters.forEach(filter => 
+            { 
+               filter.hydrate(filtered)
+               filter.display([...filter.all])
+               filter.listenForSelection()
+            })   
+         
          }
-         const filtered = this.search(this.recipes)
-         this.display(filtered)
-      
-         this.filters.forEach(filter => 
-         { 
-            filter.hydrate(filtered)
-            filter.display([...filter.all])
-            filter.listenForSelection()
-         })   
-      
+        
       })
    }
 
@@ -83,12 +106,10 @@ class Menu {
          }
          
          if(recipe.description.indexOf(this.needle) > -1){
-            //console.log(recipe)
             return true
          }
 
          if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.indexOf(this.needle) > -1)){
-            console.log(recipe)
             return true
          }
       })
