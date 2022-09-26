@@ -31,7 +31,6 @@ main {
 }
 
 .warning {
- border:1px solid red;
  display:block;
  height: 20px;
  background: #fff;
@@ -234,7 +233,6 @@ main {
    display: flex;
    flex-wrap: wrap;
    justify-content: space-between;
-   border:1px solid red;
 }
 
 .recipe-card {

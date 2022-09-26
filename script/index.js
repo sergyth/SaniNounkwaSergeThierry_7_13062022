@@ -6,10 +6,10 @@ import FilterIngredients from "../script/models/FilterIngredients.js";
 
 
 const menu = new Menu(recipes);
-menu.display(recipes);
 const filterAppliances = new FilterAppliances(menu);
 const filterIngredients = new FilterIngredients(menu);
 const filterUstensiles = new FilterUstensiles(menu);
+menu.display(recipes);
 menu.addFilter(filterIngredients)
 menu.addFilter(filterAppliances)
 menu.addFilter(filterUstensiles)

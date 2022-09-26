@@ -1069,7 +1069,7 @@ export const recipes = [
                 "unit": "grammes"
             },
             {
-                "ingredient": "Petits poids",
+                "ingredient": "Petits pois",
                 "quantity": 100,
                 "unit":"grammes"
             },

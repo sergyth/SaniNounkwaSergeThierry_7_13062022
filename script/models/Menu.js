@@ -53,46 +53,61 @@ class Menu {
    listenForsearch()
    {
       const searchbar = document.getElementById('searchbar_wrapper');
+      const recipeWrapper = document.getElementById("recipes-wrapper");
       const warning = document.createElement('div');
       warning.classList.add('warning');
       warning.innerText = "Merci de taper au moins 3 caractères pour commencer la recherche"
       warning.style.display = 'none'
-      searchbar.append(warning); 
+      searchbar.appendChild(warning);
+      
+       
+      
       
       document.getElementById('search-input').addEventListener('input', (e) => 
       {
-         this.needle = e.target.value.normalize().toLowerCase()
+         this.needle = e.target.value.toLowerCase()
+         let filtered = this.recipes;
         
-         if(this.needle.length < 3)
+         if(this.needle.length === 0)
          {
+            warning.style.display = 'none'
+  
+         }
+
+         else if(this.needle.length < 3)
+
+         {
+            
             warning.style.display = 'block'
             this.display(this.recipes)
+            return
             
-         } else
+         } else 
          {
-            warning.remove();
-            const filtered = this.search(this.recipes)
+            
+            warning.style.display = 'none'
+            filtered = this.search(this.recipes)
             console.log(filtered.length)
-            if(filtered.length === 0){
-               const recipeWrapper = document.getElementById('recipes-wrapper');
-               const displayWarning = document.createElement('div');
-               displayWarning.classList.add('warning');
-               displayWarning.textContent = "Aucune recette ne correspond à votre critère… "
-               recipeWrapper.appendChild(displayWarning); 
+            if(filtered.length === 0)
+            {   
+   
+               recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
+               return
+   
             }
-
-            //console.log(filtered)
-            this.display(filtered)
-         
-            this.filters.forEach(filter => 
-            { 
-               filter.hydrate(filtered)
-               filter.display([...filter.all])
-               filter.listenForSelection()
-            })   
-         
+          
+            
          }
-        
+         this.display(filtered)
+         
+         this.filters.forEach(filter => 
+         { 
+            filter.hydrate(filtered)
+            filter.display([...filter.all])
+            filter.listenForSelection()
+         }) 
+      
+           
       })
    }
 
@@ -101,15 +116,15 @@ class Menu {
    {
       return recipes.filter(recipe =>
       {
-         if(recipe.name.indexOf(this.needle) > -1){
+         if(recipe.name.toLowerCase().indexOf(this.needle) > -1){
             return true
          }
          
-         if(recipe.description.indexOf(this.needle) > -1){
+         if(recipe.description.toLowerCase().indexOf(this.needle) > -1){
             return true
          }
 
-         if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.indexOf(this.needle) > -1)){
+         if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.toLowerCase().indexOf(this.needle) > -1)){
             return true
          }
       })
