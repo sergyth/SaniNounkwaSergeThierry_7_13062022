@@ -60,9 +60,6 @@ class Menu {
       warning.style.display = 'none'
       searchbar.appendChild(warning);
       
-       
-      
-      
       document.getElementById('search-input').addEventListener('input', (e) => 
       {
          this.needle = e.target.value.toLowerCase()
@@ -71,35 +68,31 @@ class Menu {
          if(this.needle.length === 0)
          {
             warning.style.display = 'none'
-  
          }
 
-         else if(this.needle.length < 3)
-
-         {
-            
+         if(this.needle.length > 0 && this.needle.length < 3)
+         {  
             warning.style.display = 'block'
-            this.display(this.recipes)
-            return
-            
-         } else 
-         {
-            
+            this.display(this.recipes)  
+         }
+
+         if(this.needle.length >= 3)
+         {           
             warning.style.display = 'none'
             filtered = this.search(this.recipes)
-            console.log(filtered.length)
-            if(filtered.length === 0)
-            {   
-   
-               recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
-               return
-   
-            }
-          
-            
+            console.log(filtered.length)      
          }
-         this.display(filtered)
-         
+
+         if(filtered.length === 0)
+         {   
+            recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
+         }     
+
+         else
+         {
+            this.display(filtered)
+         }
+
          this.filters.forEach(filter => 
          { 
             filter.hydrate(filtered)
@@ -124,9 +117,9 @@ class Menu {
             return true
          }
 
-         if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.toLowerCase().indexOf(this.needle) > -1)){
-            return true
-         }
+         return recipe.ingredients.find(ingredientObj => ingredientObj.ingredient.toLowerCase().indexOf(this.needle ) > -1)
+          
+         
       })
       
    }
