@@ -30,20 +30,21 @@ class Menu {
    filter()
    {
       let filtered = this.recipes
+
+      if(this.needle.length >= 3)
+      {           
+         filtered = this.search(this.recipes)  
+      }
+
       this.filters.forEach(filter => 
       {
          filtered = filter.filterRecipes(filtered)
       })
 
-      this.display(filtered)
-      
+      this.display(filtered) 
       this.filters.forEach(filter => 
       { 
          filter.hydrate(filtered)
-      
-      })    
-      this.filters.forEach(filter => 
-      { 
          filter.display([...filter.all])
          filter.listenForSelection()
       })    
@@ -64,35 +65,26 @@ class Menu {
       {
          this.needle = e.target.value.toLowerCase()
          let filtered = this.recipes;
+         warning.style.display = 'block'
         
-         if(this.needle.length === 0)
+         if(this.needle.length === 0 || this.needle.length >= 3)
          {
             warning.style.display = 'none'
          }
-
-         if(this.needle.length > 0 && this.needle.length < 3)
-         {  
-            warning.style.display = 'block'
-            this.display(this.recipes)  
-         }
-
+         
          if(this.needle.length >= 3)
          {           
-            warning.style.display = 'none'
-            filtered = this.search(this.recipes)
-            console.log(filtered.length)      
+            filtered = this.search(this.recipes)  
          }
+
 
          if(filtered.length === 0)
          {   
             recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
+            return
          }     
 
-         else
-         {
-            this.display(filtered)
-         }
-
+         this.display(filtered)
          this.filters.forEach(filter => 
          { 
             filter.hydrate(filtered)
@@ -118,8 +110,7 @@ class Menu {
          }
 
          return recipe.ingredients.find(ingredientObj => ingredientObj.ingredient.toLowerCase().indexOf(this.needle ) > -1)
-          
-         
+           
       })
       
    }
