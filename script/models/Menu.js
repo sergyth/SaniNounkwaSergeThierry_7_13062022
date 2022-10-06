@@ -71,12 +71,11 @@ class Menu {
          {
             warning.style.display = 'none'
          }
-         
+
          if(this.needle.length >= 3)
          {           
             filtered = this.search(this.recipes)  
          }
-
 
          if(filtered.length === 0)
          {   
@@ -90,9 +89,7 @@ class Menu {
             filter.hydrate(filtered)
             filter.display([...filter.all])
             filter.listenForSelection()
-         }) 
-      
-           
+         })           
       })
    }
 
@@ -109,12 +106,9 @@ class Menu {
             return true
          }
 
-         return recipe.ingredients.find(ingredientObj => ingredientObj.ingredient.toLowerCase().indexOf(this.needle ) > -1)
-           
-      })
-      
+         return recipe.ingredients.find(ingredientObj => ingredientObj.ingredient.toLowerCase().indexOf(this.needle ) > -1)   
+      })  
    }
-
 }
 
 export default Menu;
