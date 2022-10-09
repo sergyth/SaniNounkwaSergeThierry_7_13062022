@@ -27,29 +27,30 @@ class Menu {
       document.getElementById("recipes-wrapper").innerHTML = htmlCardList;
    }
 
+  
    filter()
    {
       let filtered = this.recipes
+
+      if(this.needle.length >= 3)
+      {           
+         filtered = this.searchNative(this.recipes)  
+      }
+
       this.filters.forEach(filter => 
       {
          filtered = filter.filterRecipes(filtered)
       })
 
-      this.display(filtered)
-      
+      this.display(filtered) 
       this.filters.forEach(filter => 
       { 
          filter.hydrate(filtered)
-      
-      })    
-      this.filters.forEach(filter => 
-      { 
          filter.display([...filter.all])
          filter.listenForSelection()
       })    
    }
 
-   
    listenForsearch()
    {
       const searchbar = document.getElementById('searchbar_wrapper');
@@ -60,77 +61,70 @@ class Menu {
       warning.style.display = 'none'
       searchbar.appendChild(warning);
       
-       
-      
-      
       document.getElementById('search-input').addEventListener('input', (e) => 
       {
          this.needle = e.target.value.toLowerCase()
          let filtered = this.recipes;
+         warning.style.display = 'block'
         
-         if(this.needle.length === 0)
+         if(this.needle.length === 0 || this.needle.length >= 3)
          {
             warning.style.display = 'none'
-  
          }
 
-         else if(this.needle.length < 3)
+         if(this.needle.length >= 3)
+         {           
+            filtered = this.searchNative(this.recipes)  
+         }
 
-         {
-            
-            warning.style.display = 'block'
-            this.display(this.recipes)
+         if(filtered.length === 0)
+         {   
+            recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
             return
-            
-         } else 
-         {
-            
-            warning.style.display = 'none'
-            filtered = this.search(this.recipes)
-            console.log(filtered.length)
-            if(filtered.length === 0)
-            {   
-   
-               recipeWrapper.innerHTML = "Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc"
-               return
-   
-            }
-          
-            
-         }
+         }     
+
          this.display(filtered)
-         
          this.filters.forEach(filter => 
          { 
             filter.hydrate(filtered)
             filter.display([...filter.all])
             filter.listenForSelection()
-         }) 
-      
-           
+         })           
       })
    }
 
-
-   search(recipes)
-   {
-      return recipes.filter(recipe =>
+   searchNative(recipes)
+   { 
+      let list = [];
+      
+      for(let i = 0; i < recipes.length; i++)
       {
+         const recipe = recipes[i]
+         let isMatch = false;
          if(recipe.name.toLowerCase().indexOf(this.needle) > -1){
-            return true
+            isMatch = true
          }
-         
+
          if(recipe.description.toLowerCase().indexOf(this.needle) > -1){
-            return true
+            isMatch = true
          }
 
-         if(recipe.ingredients.forEach(ingredientList => ingredientList.ingredient.toLowerCase().indexOf(this.needle) > -1)){
-            return true
+         for(let j = 0; j < recipe.ingredients.length; j++ )
+         {
+            let ingredient = recipe.ingredients[j].ingredient
+            if(ingredient.toLowerCase().indexOf(this.needle) > -1){
+               isMatch = true
+            }
          }
-      })
-      
+
+         if(isMatch)
+         {
+            list.push(recipe)
+         }
+      }
+
+      return list
    }
-
 }
 
 export default Menu;
