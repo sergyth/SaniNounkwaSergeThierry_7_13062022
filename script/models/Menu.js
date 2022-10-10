@@ -96,7 +96,8 @@ class Menu {
 
    search(recipes)
    {
-      return recipes.filter(recipe =>
+      console.time('searchFonctionnelle ' + this.needle)
+      const searchResult = recipes.filter(recipe =>
       {
          if(recipe.name.toLowerCase().indexOf(this.needle) > -1){
             return true
@@ -107,7 +108,9 @@ class Menu {
          }
 
          return recipe.ingredients.find(ingredientObj => ingredientObj.ingredient.toLowerCase().indexOf(this.needle ) > -1)   
-      })  
+      })
+      console.timeEnd('searchFonctionnelle ' + this.needle)
+      return searchResult  
    }
 }
 
