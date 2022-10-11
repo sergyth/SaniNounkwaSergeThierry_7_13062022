@@ -95,7 +95,7 @@ class Menu {
 
    searchNative(recipes)
    { 
-      console.time('searchNative ' + this.needle)
+      //console.time('searchNative ' + this.needle)
       let list = [];
       
       for(let i = 0; i < recipes.length; i++)
@@ -123,7 +123,7 @@ class Menu {
             list.push(recipe)
          }
       }
-      console.timeEnd('searchNative ' + this.needle)
+      //console.timeEnd('searchNative ' + this.needle)
       return list
    }
 }
